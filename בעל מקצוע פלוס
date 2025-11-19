@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>בעל מקצוע+ – מוצאים בעלי מקצוע אמינים</title>
+  <style>
+    /* ===== בסיס כללי ===== */
+    :root {
+      --primary: #1D3557;   /* כחול כהה */
+      --secondary: #E63946; /* אדום עדין */
+      --accent: #A8DADC;    /* טורקיז רך */
+      --bg: #F5F5F5;        /* רקע אפור בהיר */
+      --card-bg: #FFFFFF;
+      --text-main: #1D3557;
+      --text-muted: #666666;
+      --radius: 12px;
+      --shadow: 0 4px 10px rgba(0,0,0,0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      direction: rtl;  /* חשוב לעברית */
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ===== כותרת עליונה ===== */
+    header {
+      background: var(--primary);
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .logo {
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .logo-badge {
+      background: var(--accent);
+      color: var(--primary);
+      border-radius: 999px;
+      padding: 0.1rem 0.65rem;
+      font-size: 0.8rem;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1rem;
+      margin: 0;
+      padding: 0;
+      font-size: 0.95rem;
+    }
+
+    nav li {
+      cursor: pointer;
+      padding: 0.3rem 0.7rem;
+      border-radius: 999px;
+      transition: background 0.15s ease, transform 0.1s ease;
+      white-space: nowrap;
+    }
+
+    nav li:hover {
+      background: rgba(255,255,255,0.16);
+      transform: translateY(-1px);
+    }
+
+    /* ===== קונטיינר כללי ===== */
+    main {
+      max-width: 1100px;
+      margin: 1.5rem auto 2.5rem auto;
+      padding: 0 1rem;
+    }
+
+    section {
+      margin-bottom: 2.5rem;
+      display: none; /* נשלוט דרך JS */
+    }
+
+    section.active {
+      display: block;
+    }
+
+    h1, h2, h3 {
+      margin-top: 0;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.25rem 1.5rem;
+    }
+
+    /* ===== HOME / HERO ===== */
+    #home-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr);
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    #home-hero .title {
+      font-size: 1.9rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+
+    #home-hero .subtitle {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.9);
+      color: var(--primary);
+      font-size: 0.8rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .hero-panel {
+      background: linear-gradient(135deg, var(--primary), #457B9D);
+      color: #fff;
+      border-radius: var(--radius);
+      padding: 1.2rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .hero-panel-title {
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .hero-panel p {
+      margin: 0;
+      font-size: 0.9rem;
+      opacity: 0.95;
+    }
+
+    /* ===== טופס חיפוש ===== */
+    .search-card {
+      margin-top: 1.3rem;
+    }
+
+    .search-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1.5fr 1fr;
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+    }
+
+    label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 0.25rem;
+      display: block;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 0.5rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid #d3d3d3;
+      font-size: 0.9rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(29,53,87,0.12);
+    }
+
+    textarea {
+      border-radius: 12px;
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    button, .btn {
+      border: none;
+      background: var(--secondary);
+      color: #fff;
+      border-radius: 999px;
+      padding: 0.6rem 1.3rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.1s ease;
+      box-shadow: 0 3px 8px rgba(230,57,70,0.35);
+      white-space: nowrap;
+    }
+
+    button:hover, .btn:hover {
+      background: #c92635;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(230,57,70,0.45);
+    }
+
+    button.secondary {
+      background: #fff;
+      color: var(--primary);
+      box-shadow: none;
+      border: 1px solid rgba(255,255,255,0.7);
+    }
+
+    button.secondary:hover {
+      background: rgba(255,255,255,0.95);
+      color: var(--primary);
+    }
+
+    /* ===== קטגוריות ===== */
+    .section-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.7rem;
+    }
+
+    .section-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 0.9rem;
+    }
+
+    .category-card {
+      background-color: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 0.85rem 0.9rem;
+      text-align: right;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+      color: var(--text-main);
+    }
+
+    .category-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 12px rgba(0,0,0,0.09);
+      background: #FAFAFA;
+    }
+
+    .category-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 0.15rem;
+    }
+
+    .category-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* ===== למה לבחור בנו ===== */
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .benefit-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 0.85rem 0.9rem;
+      box-shadow: var(--shadow);
+      font-size: 0.9rem;
+    }
+
+    .benefit-title {
+      font-weight: 700;
+      margin-bottom: 0.2rem;
+    }
+
+    .benefit-text {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* ===== תוצאות חיפוש ===== */
+    #results section.card {
+      margin-top: 0.75rem;
+    }
+
+    .filters-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 0.75rem;
+      align-items: flex-end;
+    }
+
+    .results-list {
+      margin-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .provider-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 0.9rem 1rem;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1.2fr);
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .provider-main {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .provider-name {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .provider-meta {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .rating-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      background: #FFF4E0;
+      font-size: 0.8rem;
+      margin-top: 0.2rem;
+    }
+
+    .tags {
+      margin-top: 0.3rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+    }
+
+    .tag {
+      font-size: 0.75rem;
+      padding: 0.1rem 0.45rem;
+      border-radius: 999px;
+      background: #E9ECEF;
+      color: #415A77;
+    }
+
+    .provider-actions {
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.4rem;
+    }
+
+    .price-range {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* ===== פרופיל בעל מקצוע ===== */
+    #profile .profile-header {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .profile-name {
+      font-size: 1.3rem;
+      font-weight: 800;
+    }
+
+    .profile-meta {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.3fr);
+      gap: 1rem;
+      margin-top: 0.6rem;
+    }
+
+    .score-box {
+      background: #FFF4E0;
+      border-radius: var(--radius);
+      padding: 0.8rem 0.9rem;
+      font-size: 0.9rem;
+    }
+
+    .score-main {
+      font-size: 1.4rem;
+      font-weight: 800;
+    }
+
+    .score-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .score-breakdown {
+      margin-top: 0.4rem;
+      font-size: 0.8rem;
+    }
+
+    .profile-contacts {
+      margin-top: 0.6rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .btn-outline {
+      background: #fff;
+      color: var(--primary);
+      border-radius: 999px;
+      padding: 0.45rem 0.9rem;
+      border: 1px solid #d0d0d0;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: background 0.15s ease, box-shadow 0.1s ease;
+    }
+
+    .btn-outline:hover {
+      background: #f8f9fa;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.35rem;
+      margin-top: 0.4rem;
+    }
+
+    .gallery-item {
+      background: linear-gradient(135deg, #e9ecef, #f8f9fa);
+      border-radius: 8px;
+      height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .reviews-list {
+      margin-top: 0.6rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      max-height: 260px;
+      overflow-y: auto;
+      padding-right: 0.3rem;
+    }
+
+    .review {
+      border-bottom: 1px solid #eee;
+      padding-bottom: 0.4rem;
+    }
+
+    .review:last-child {
+      border-bottom: none;
+    }
+
+    .review-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 0.15rem;
+    }
+
+    .review-body {
+      font-size: 0.85rem;
+    }
+
+    /* ===== איך זה עובד / לבעלי מקצוע ===== */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 0.9rem;
+      margin-top: 0.6rem;
+    }
+
+    .step {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 0.9rem;
+      box-shadow: var(--shadow);
+      font-size: 0.9rem;
+    }
+
+    .step-number {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+
+    .step-title {
+      font-weight: 700;
+      margin-bottom: 0.2rem;
+    }
+
+    .step-text {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .pros-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.2fr);
+      gap: 1rem;
+      margin-top: 0.6rem;
+    }
+
+    .advantages-list {
+      list-style: none;
+      padding: 0;
+      margin: 0.3rem 0 0 0;
+      font-size: 0.9rem;
+    }
+
+    .advantages-list li {
+      margin-bottom: 0.3rem;
+      padding-right: 1.1rem;
+      position: relative;
+      color: var(--text-muted);
+    }
+
+    .advantages-list li::before {
+      content: "•";
+      position: absolute;
+      right: 0;
+      color: var(--secondary);
+    }
+
+    /* ===== פוטר ===== */
+    footer {
+      background: #101820;
+      color: #d0d7e2;
+      padding: 1rem 1.5rem;
+      font-size: 0.8rem;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: #a8dadc;
+      font-size: 0.8rem;
+    }
+
+    /* ===== רספונסיביות ===== */
+    @media (max-width: 820px) {
+      #home-hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .pros-grid,
+      .profile-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .provider-card {
+        grid-template-columns: minmax(0, 1fr);
+        text-align: right;
+      }
+
+      .provider-actions {
+        align-items: flex-start;
+      }
+
+      nav ul {
+        gap: 0.4rem;
+        font-size: 0.8rem;
+      }
+
+      .search-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      header {
+        padding-inline: 0.8rem;
+      }
+
+      main {
+        padding-inline: 0.7rem;
+      }
+
+      .logo {
+        font-size: 1.1rem;
+      }
+
+      .card {
+        padding: 1rem 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="logo">
+        בעל מקצוע+
+        <span class="logo-badge">דירוגים אמיתיים</span>
+      </div>
+      <nav>
+        <ul>
+          <li data-section="home">בית</li>
+          <li data-section="how">איך זה עובד</li>
+          <li data-section="pros">לבעלי מקצוע</li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- HOME -->
+    <section id="home" class="active">
+      <div id="home-hero">
+        <div>
+          <div class="pill">
+            🔍 חיפוש חכם
+            <span>בעל מקצוע+ לכל תיקון</span>
+          </div>
+          <div class="title">מוצאים בעל מקצוע אמין בכמה קליקים.</div>
+          <div class="subtitle">
+            חוות דעת מאומתות, ציונים מפורטים, ושקיפות מלאה – כדי שתדע במי באמת אפשר לסמוך.
+          </div>
+
+          <div class="card search-card">
+            <form id="main-search-form">
+              <div class="search-grid">
+                <div>
+                  <label for="search-category">תחום</label>
+                  <select id="search-category">
+                    <option value="">כל התחומים</option>
+                    <option value="אינסטלטור">אינסטלטור</option>
+                    <option value="חשמלאי">חשמלאי</option>
+                    <option value="שיפוצניק">שיפוצניק</option>
+                    <option value="מזגן">טכנאי מזגנים</option>
+                    <option value="ניקיון">ניקיון</option>
+                    <option value="רכב">מוסך רכב</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="search-city">עיר / יישוב</label>
+                  <input id="search-city" type="text" placeholder="לדוגמה: גדרה, יבנה, אשדוד">
+                </div>
+                <div>
+                  <label>&nbsp;</label>
+                  <button type="submit">
+                    חפש מומחה
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="hero-panel">
+          <div class="hero-panel-title">בעל מקצוע+ בודק בשבילך.</div>
+          <p>אנחנו מרכזים ציונים לפי איכות עבודה, שירות, מחיר ועמידה בזמנים – כדי שתוכל לבחור בלב שקט.</p>
+          <p>כל חוות הדעת מגיעות מלקוחות אמיתיים שעברו אימות בסיסי.</p>
+        </div>
+      </div>
+
+      <div style="margin-top: 2rem;">
+        <div class="section-title">קטגוריות מובילות בסביבה שלך</div>
+        <div class="section-subtitle">לחץ על קטגוריה כדי לראות בעלי מקצוע מומלצים.</div>
+        <div id="categories" class="categories-grid"></div>
+      </div>
+
+      <div style="margin-top: 2rem;">
+        <div class="section-title">למה לבחור בבעל מקצוע+?</div>
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <div class="benefit-title">חוות דעת מאומתות</div>
+            <div class="benefit-text">
+              כל ביקורת נבדקת ידנית ועוברת אימות בסיסי כדי לוודא שמדובר בלקוח אמיתי.
+            </div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-title">שקיפות מחירים</div>
+            <div class="benefit-text">
+              טווחי מחיר משוערים לכל שירות, כדי שלא תופתע בביקור בבית.
+            </div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-title">מדד שירות</div>
+            <div class="benefit-text">
+              ציון נפרד לאיכות השירות, זמינות ויחס ללקוח – לא רק ל"עבודה עצמה".
+            </div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-title">דגש על מקומיות</div>
+            <div class="benefit-text">
+              תראה קודם את בעלי המקצוע הפעילים באזורך, כדי לקצר זמני תגובה ועלויות הגעה.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section id="results">
+      <div class="card">
+        <div class="section-title">תוצאות חיפוש</div>
+        <div class="section-subtitle">
+          מחפש בעל מקצוע אחר? שנה את הסינון ונסה שוב.
+        </div>
+
+        <div class="filters-row" style="margin-top: 0.5rem;">
+          <div>
+            <label for="filter-category">תחום</label>
+            <select id="filter-category">
+              <option value="">כל התחומים</option>
+              <option value="אינסטלטור">אינסטלטור</option>
+              <option value="חשמלאי">חשמלאי</option>
+              <option value="שיפוצניק">שיפוצניק</option>
+              <option value="מזגן">טכנאי מזגנים</option>
+              <option value="ניקיון">ניקיון</option>
+              <option value="רכב">מוסך רכב</option>
+            </select>
+          </div>
+          <div>
+            <label for="filter-city">עיר / יישוב</label>
+            <input id="filter-city" type="text" placeholder="לדוגמה: גדרה">
+          </div>
+          <div>
+            <label for="filter-sort">מיון לפי</label>
+            <select id="filter-sort">
+              <option value="rating">ציון גבוה</option>
+              <option value="reviews">מס' חוות דעת</option>
+            </select>
+          </div>
+          <div>
+            <label>&nbsp;</label>
+            <button id="filter-apply">עדכן תוצאות</button>
+          </div>
+        </div>
+
+        <div id="results-list" class="results-list"></div>
+
+        <div style="margin-top: 0.75rem; font-size: 0.8rem; color: var(--text-muted);">
+          לא מצאת מה שאתה מחפש? נסה לחפש תחום אחר או אזור רחב יותר.
+        </div>
+      </div>
+    </section>
+
+    <!-- PROFILE -->
+    <section id="profile">
+      <div class="card">
+        <button id="back-to-results" class="btn-outline" style="margin-bottom: 0.8rem;">← חזרה לתוצאות</button>
+
+        <div class="profile-header">
+          <div class="profile-name" id="profile-name"></div>
+          <div class="profile-meta" id="profile-meta"></div>
+        </div>
+
+        <div class="profile-grid">
+          <div>
+            <div class="score-box">
+              <div class="score-main" id="profile-rating-main"></div>
+              <div class="score-sub" id="profile-rating-count"></div>
+              <div class="score-breakdown" id="profile-breakdown"></div>
+            </div>
+
+            <div class="profile-contacts" id="profile-contacts"></div>
+
+            <div style="margin-top: 0.6rem;">
+              <div class="section-subtitle" style="margin-bottom: 0.3rem;">גלריית עבודות לדוגמה</div>
+              <div class="gallery" id="profile-gallery"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="section-subtitle" style="margin-bottom: 0.3rem;">חוות דעת אחרונות</div>
+            <div class="reviews-list" id="profile-reviews"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section id="how">
+      <div class="card">
+        <div class="section-title">איך עובד בעל מקצוע+?</div>
+        <div class="section-subtitle">
+          תהליך פשוט ושקוף – גם ללקוח וגם לבעל המקצוע.
+        </div>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-title">מחפשים לפי תחום ואזור</div>
+            <div class="step-text">
+              בוחרים תחום (לדוגמה אינסטלטור) ומקלידים עיר או יישוב. המערכת מציגה קודם את בעלי המקצוע הפעילים בסביבה שלך.
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-title">משווים ציונים וחוות דעת</div>
+            <div class="step-text">
+              רואים ציון ממוצע, מס' חוות דעת, מדד שירות וטווחי מחיר משוערים – כדי לקבל תמונה מלאה לפני שמתקשרים.
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-title">יוצרים קשר ישירות</div>
+            <div class="step-text">
+              מתקשרים או שולחים הודעת וואטסאפ ישירות לבעל המקצוע, בלי תיווך באמצע ובלי עמלות נסתרות.
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-title">משאירים חוות דעת אמיתית</div>
+            <div class="step-text">
+              אחרי שסיימת את העבודה, תוכל להשאיר ציון מפורט. חוות הדעת עוברות בדיקה ואימות כדי למנוע שימוש לרעה.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOR PROS -->
+    <section id="pros">
+      <div class="card">
+        <div class="section-title">לבעלי מקצוע – הצטרפו לבעל מקצוע+</div>
+        <div class="section-subtitle">
+          קבלו לקוחות שמתאימים בדיוק לשירות שאתם נותנים, על בסיס חוות דעת וציון אמינות.
+        </div>
+
+        <div class="pros-grid">
+          <div>
+            <h3>למה משתלם להצטרף?</h3>
+            <ul class="advantages-list">
+              <li>לקוחות שמגיעים אחרי קריאה של חוות דעת – מגיעים הרבה יותר סגורים לסגירה.</li>
+              <li>דגש על אזורי פעילות – תקבלו לקוחות שנמצאים באזורים שבהם אתם באמת עובדים.</li>
+              <li>פרופיל שקוף: תיאור, גלריית עבודות, טווחי מחיר ופרטי קשר ישירים.</li>
+              <li>אפשרות להבליט התמחות ספציפית (חירום, עבודות גדולות, פרויקטים מיוחדים).</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3>טופס הצטרפות</h3>
+            <form id="pros-form">
+              <div style="display:grid; gap:0.6rem; margin-top:0.3rem;">
+                <div>
+                  <label for="pros-name">שם מלא</label>
+                  <input id="pros-name" type="text" placeholder="לדוגמה: ישראל ישראלי">
+                </div>
+                <div>
+                  <label for="pros-phone">טלפון</label>
+                  <input id="pros-phone" type="tel" placeholder="מס' נייד לקבלת פניות">
+                </div>
+                <div>
+                  <label for="pros-email">אימייל</label>
+                  <input id="pros-email" type="email" placeholder="לא חובה, אבל מומלץ">
+                </div>
+                <div>
+                  <label for="pros-category">תחום</label>
+                  <input id="pros-category" type="text" placeholder="אינסטלטור, חשמלאי, שיפוצניק...">
+                </div>
+                <div>
+                  <label for="pros-area">אזור עבודה</label>
+                  <input id="pros-area" type="text" placeholder="גדרה, יבנה, אשדוד והסביבה">
+                </div>
+                <div>
+                  <label for="pros-about">כמה מילים עליכם</label>
+                  <textarea id="pros-about" placeholder="ספרו בקצרה מה מייחד אתכם, ניסיון, סוגי עבודות..."></textarea>
+                </div>
+                <div>
+                  <button type="submit">שלחו פרטים – צוות בעל מקצוע+ יחזור אליכם</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div>© <span id="year"></span> בעל מקצוע+ – דירוג אמיתי של בעלי מקצוע בישראל.</div>
+      <div class="footer-links">
+        <a href="#">מדיניות פרטיות</a>
+        <a href="#">תנאי שימוש</a>
+        <a href="#">צור קשר</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ===== נתוני דמה של בעלי מקצוע =====
+    const providers = [
+      {
+        id: 1,
+        name: "אבי האינסטלטור מהגדרות",
+        category: "אינסטלטור",
+        city: "גדרה",
+        area: "גוש גדרות והסביבה",
+        ratingAvg: 4.9,
+        ratingCount: 32,
+        priceRange: "250–450 ₪ לביקור, לפי עבודה",
+        tags: ["מגיע מהר", "תקלות חירום", "ניקוי קווים"],
+        phone: "050-0000001",
+        whatsapp: "0500000001",
+        description: "מתמחה בפיצוצי צנרת ותיקוני חירום 24/6, כולל עבודות מורכבות בחצרות ובבתים פרטיים.",
+        scores: {quality: 4.9, price: 4.7, punctual: 4.9, service: 5.0},
+        gallery: ["לפני/אחרי קו ביוב", "תיקון נזילה בקיר", "החלפת כלים סanitריים"],
+        reviews: [
+          {
+            reviewerName: "ניקול מגדרה",
+            date: "10.09.2025",
+            rating: 5,
+            commentText: "הגיע תוך חצי שעה בערב, סידר פיצוץ בצינור ראשי והשאיר הכול נקי. מחיר הוגן לגמרי."
+          },
+          {
+            reviewerName: "יואב",
+            date: "22.08.2025",
+            rating: 5,
+            commentText: "מקצוען אמיתי, הסביר כל דבר שעשה. אשתמש בו שוב."
+          }
+        ]
+      },
+      {
+        id: 2,
+        name: "נועם החשמלאי",
+        category: "חשמלאי",
+        city: "יבנה",
+        area: "יבנה והסביבה",
+        ratingAvg: 4.8,
+        ratingCount: 21,
+        priceRange: "300–600 ₪ לעבודה ביתית",
+        tags: ["טיפול בקצרים", "לוחות חשמל", "תאורה לבית"],
+        phone: "050-0000002",
+        whatsapp: "0500000002",
+        description: "חשמלאי מוסמך, מתמחה בשדרוג לוחות, טיפול בקצרים ותכנון תאורה חכמה.",
+        scores: {quality: 4.9, price: 4.6, punctual: 4.8, service: 4.9},
+        gallery: ["שדרוג לוח חשמל", "תאורת סלון", "התקנת גופי תאורה"],
+        reviews: [
+          {
+            reviewerName: "רונית",
+            date: "03.09.2025",
+            rating: 5,
+            commentText: "פתר לנו קפיצות בלוח שאף אחד אחר לא הצליח. הגיע בזמן ואפילו הקפיד אחרי."
+          }
+        ]
+      },
+      {
+        id: 3,
+        name: "הנגריה של תומר",
+        category: "שיפוצניק",
+        city: "אשדוד",
+        area: "אשדוד והסביבה",
+        ratingAvg: 4.7,
+        ratingCount: 18,
+        priceRange: "עבודות קטנות מ-500 ₪, פרויקטים גדולים לפי הצעה",
+        tags: ["עבודות נגרות", "הרכבות מטבח", "שיפוצים קטנים"],
+        phone: "050-0000003",
+        whatsapp: "0500000003",
+        description: "שיפוצניק עם התמחות בעבודות גבס ונגרות, כולל מטבחים, חדרי ילדים וארונות אמבט.",
+        scores: {quality: 4.8, price: 4.5, punctual: 4.6, service: 4.8},
+        gallery: ["מטבח חדש", "קיר גבס", "ארון אמבט"],
+        reviews: [
+          {
+            reviewerName: "דניאל",
+            date: "15.08.2025",
+            rating: 4.5,
+            commentText: "עבודה יפה מאוד, טיפה איחור בזמנים אבל נתן פיצוי קטן. מרוצים."
+          }
+        ]
+      },
+      {
+        id: 4,
+        name: "אוויר פלוס – טכנאי מזגנים",
+        category: "מזגן",
+        city: "גדרה",
+        area: "גדרה וגן יבנה",
+        ratingAvg: 4.9,
+        ratingCount: 27,
+        priceRange: "300 ₪ בדיקה, התקנות ופרויקטים לפי הצעה",
+        tags: ["מזגנים עיליים", "מערכות מיני מרכזי"],
+        phone: "050-0000004",
+        whatsapp: "0500000004",
+        description: "מתמחים בהתקנה ותחזוקה של מערכות מיזוג ביתיות, כולל מילוי גז ובדיקות תקופתיות.",
+        scores: {quality: 4.9, price: 4.7, punctual: 5.0, service: 4.9},
+        gallery: ["התקנת מזגן", "יחידת חוץ", "מיני מרכזי"],
+        reviews: [
+          {
+            reviewerName: "סיון",
+            date: "01.07.2025",
+            rating: 5,
+            commentText: "סידר מזגן שחשבנו שכבר צריך להחליף. חיסך לנו כסף."
+          }
+        ]
+      },
+      {
+        id: 5,
+        name: "ניקיון פלוס לבתים",
+        category: "ניקיון",
+        city: "יבנה",
+        area: "יבנה, גדרה ומודיעין",
+        ratingAvg: 4.6,
+        ratingCount: 19,
+        priceRange: "850–1400 ₪ לניקוי יסודי / אחרי שיפוץ",
+        tags: ["ניקוי אחרי שיפוץ", "בתים פרטיים", "דירות"],
+        phone: "050-0000005",
+        whatsapp: "0500000005",
+        description: "צוות ניקיון מקצועי, דגש על ניקוי אחרי שיפוץ וניקוי יסודי של דירות לפני כניסה.",
+        scores: {quality: 4.7, price: 4.4, punctual: 4.6, service: 4.7},
+        gallery: ["לפני/אחרי סלון", "מטבח נקי", "חדר רחצה"],
+        reviews: [
+          {
+            reviewerName: "משה",
+            date: "19.09.2025",
+            rating: 4.5,
+            commentText: "עשו עבודה טובה, היו כמה מקומות קטנים שביקשנו לעבור שוב ותיקנו מיד."
+          }
+        ]
+      },
+      {
+        id: 6,
+        name: "מוסך הדרך הבטוחה",
+        category: "רכב",
+        city: "אשדוד",
+        area: "אשדוד והסביבה",
+        ratingAvg: 4.8,
+        ratingCount: 24,
+        priceRange: "טיפולים שוטפים מ-650 ₪, תקלות לפי הצעה",
+        tags: ["טיפולים שוטפים", "בדיקות לפני קניה"],
+        phone: "050-0000006",
+        whatsapp: "0500000006",
+        description: "מוסך כללי עם התמחות ברכבים משפחתיים, בדיקות לפני קניה ותקלות חשמל ברכב.",
+        scores: {quality: 4.9, price: 4.6, punctual: 4.7, service: 4.8},
+        gallery: ["בדיקת רכב", "מוסך", "ליפט"],
+        reviews: [
+          {
+            reviewerName: "טל",
+            date: "11.10.2025",
+            rating: 5,
+            commentText: "בדקו לי רכב לפני קניה ונתנו דו\"ח מפורט. חסך לי כאב ראש."
+          }
+        ]
+      },
+      {
+        id: 7,
+        name: "יוסי תיקוני צנרת",
+        category: "אינסטלטור",
+        city: "גן יבנה",
+        area: "גן יבנה וגדרה",
+        ratingAvg: 4.5,
+        ratingCount: 12,
+        priceRange: "220–380 ₪ לקריאה, לפי היקף",
+        tags: ["תיקוני צנרת", "פתיחת סתימות"],
+        phone: "050-0000007",
+        whatsapp: "0500000007",
+        description: "מתמחה בפתיחת סתימות ותיקוני צנרת בדירות ובתים צמודי קרקע.",
+        scores: {quality: 4.5, price: 4.4, punctual: 4.6, service: 4.6},
+        gallery: ["סתימה בכיור", "תיקון צינור"],
+        reviews: [
+          {
+            reviewerName: "אלעד",
+            date: "05.09.2025",
+            rating: 4.5,
+            commentText: "הגיע בזמן ועשה את העבודה. מחיר סביר."
+          }
+        ]
+      },
+      {
+        id: 8,
+        name: "חשמל בטוח – מיכאל",
+        category: "חשמלאי",
+        city: "אשדוד",
+        area: "אשדוד והסביבה",
+        ratingAvg: 4.7,
+        ratingCount: 16,
+        priceRange: "350–700 ₪ לפי סוג העבודה",
+        tags: ["תיקוני חשמל", "תאורה חכמה"],
+        phone: "050-0000008",
+        whatsapp: "0500000008",
+        description: "חשמלאי מוסמך, מתעסק הרבה בהתקנת תאורה חכמה ושדרוג בתים קיימים.",
+        scores: {quality: 4.8, price: 4.5, punctual: 4.7, service: 4.7},
+        gallery: ["תאורת לד", "לוח חשמל"],
+        reviews: [
+          {
+            reviewerName: "אור",
+            date: "09.08.2025",
+            rating: 4.5,
+            commentText: "עבודה טובה, הגיע קצת באיחור אבל נשאר עד שסיים הכול כמו שצריך."
+          }
+        ]
+      },
+      {
+        id: 9,
+        name: "ניקיון מהלב",
+        category: "ניקיון",
+        city: "גדרה",
+        area: "גדרה והסביבה",
+        ratingAvg: 4.8,
+        ratingCount: 14,
+        priceRange: "320–550 ₪ לניקוי דירה שוטף",
+        tags: ["ניקיון שוטף", "משרדים קטנים"],
+        phone: "050-0000009",
+        whatsapp: "0500000009",
+        description: "שירותי ניקיון שוטפים לדירות ולמשרדים קטנים, עם אותו צוות קבוע.",
+        scores: {quality: 4.8, price: 4.7, punctual: 4.9, service: 4.8},
+        gallery: ["מטבח מבריק", "חלונות"],
+        reviews: [
+          {
+            reviewerName: "הילה",
+            date: "28.09.2025",
+            rating: 5,
+            commentText: "צוות נחמד מאוד, מגיע בזמן, גמישים בשעות. מרוצה מאוד."
+          }
+        ]
+      },
+      {
+        id: 10,
+        name: "קיר וגבס – שיפוצים קלים",
+        category: "שיפוצניק",
+        city: "גדרה",
+        area: "גדרה, יבנה, אשדוד",
+        ratingAvg: 4.6,
+        ratingCount: 11,
+        priceRange: "עבודות קטנות מ-700 ₪",
+        tags: ["תיקוני קירות", "צביעה", "גבס"],
+        phone: "050-0000010",
+        whatsapp: "0500000010",
+        description: "שיפוצים קלים לבית, תיקוני קירות, גבס, וצביעה של דירות לפני השכרה.",
+        scores: {quality: 4.6, price: 4.5, punctual: 4.5, service: 4.7},
+        gallery: ["קיר צבוע", "עבודת גבס"],
+        reviews: [
+          {
+            reviewerName: "יוסי",
+            date: "02.10.2025",
+            rating: 4.5,
+            commentText: "תיקנו קיר מתפורר בסלון, נראה טוב. סיכמנו שיחזרו לתיקון קטן והגיעו."
+          }
+        ]
+      }
+    ];
+
+    // ===== עזרי DOM =====
+    const sections = {
+      home: document.getElementById("home"),
+      results: document.getElementById("results"),
+      profile: document.getElementById("profile"),
+      how: document.getElementById("how"),
+      pros: document.getElementById("pros")
+    };
+
+    const categoriesContainer = document.getElementById("categories");
+    const resultsList = document.getElementById("results-list");
+
+    // ===== ניווט בין סקשנים =====
+    function showSection(name) {
+      Object.keys(sections).forEach(key => {
+        if (sections[key]) {
+          sections[key].classList.toggle("active", key === name);
+        }
+      });
+      // גלילה למעלה כדי שיראו את תחילת הסקשן
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    document.querySelectorAll("nav li").forEach(li => {
+      li.addEventListener("click", () => {
+        const sectionName = li.getAttribute("data-section");
+        if (sectionName === "home") showSection("home");
+        else if (sectionName === "how") showSection("how");
+        else if (sectionName === "pros") showSection("pros");
+      });
+    });
+
+    // ===== קטגוריות מובילות =====
+    function computeCategoryStats() {
+      const stats = {};
+      providers.forEach(p => {
+        if (!stats[p.category]) {
+          stats[p.category] = { count: 0, avg: 0, totalRating: 0 };
+        }
+        stats[p.category].count++;
+        stats[p.category].totalRating += p.ratingAvg;
+      });
+      Object.keys(stats).forEach(cat => {
+        stats[cat].avg = (stats[cat].totalRating / stats[cat].count).toFixed(1);
+      });
+      return stats;
+    }
+
+    function renderCategories() {
+      const stats = computeCategoryStats();
+      categoriesContainer.innerHTML = "";
+      Object.keys(stats).forEach(cat => {
+        const div = document.createElement("div");
+        div.className = "category-card";
+        div.innerHTML = `
+          <div class="category-name">${cat}</div>
+          <div class="category-meta">
+            ${stats[cat].count} בעלי מקצוע · ציון ממוצע ${stats[cat].avg}
+          </div>
+        `;
+        div.addEventListener("click", () => {
+          document.getElementById("search-category").value = cat;
+          searchProviders(cat, "");
+        });
+        categoriesContainer.appendChild(div);
+      });
+    }
+
+    // ===== חיפוש ותוצאות =====
+    function filterProviders({category = "", city = ""}) {
+      let list = [...providers];
+      if (category) {
+        list = list.filter(p => p.category === category);
+      }
+      if (city) {
+        const c = city.trim().toLowerCase();
+        list = list.filter(p =>
+          p.city.toLowerCase().includes(c) ||
+          p.area.toLowerCase().includes(c)
+        );
+      }
+      return list;
+    }
+
+    function renderSearchResults(list) {
+      resultsList.innerHTML = "";
+      if (!list.length) {
+        resultsList.innerHTML = `<div style="font-size:0.9rem; color:#777;">לא נמצאו תוצאות מתאימות לחיפוש. נסה לשנות תחום או עיר.</div>`;
+        return;
+      }
+
+      list.forEach(p => {
+        const card = document.createElement("div");
+        card.className = "provider-card";
+        card.innerHTML = `
+          <div class="provider-main">
+            <div class="provider-name">${p.name}</div>
+            <div class="provider-meta">${p.category} · ${p.city} (${p.area})</div>
+            <div class="rating-badge">
+              ⭐ ${p.ratingAvg.toFixed(1)}
+              <span style="color:#999;">(${p.ratingCount} חוות דעת)</span>
+            </div>
+            <div class="tags">
+              ${p.tags.map(t => `<span class="tag">${t}</span>`).join("")}
+            </div>
+          </div>
+          <div class="provider-actions">
+            <div class="price-range">${p.priceRange}</div>
+            <button class="btn" data-id="${p.id}">לפרופיל המלא</button>
+          </div>
+        `;
+        card.querySelector("button").addEventListener("click", () => {
+          openProviderProfile(p.id);
+        });
+        resultsList.appendChild(card);
+      });
+    }
+
+    function searchProviders(categoryValue, cityValue) {
+      const list = filterProviders({
+        category: categoryValue || document.getElementById("search-category").value,
+        city: cityValue || document.getElementById("search-city").value
+      });
+      renderSearchResults(list);
+      showSection("results");
+
+      // לעדכן גם את פילטרי התוצאות
+      document.getElementById("filter-category").value =
+        categoryValue || document.getElementById("search-category").value;
+      document.getElementById("filter-city").value =
+        cityValue || document.getElementById("search-city").value;
+    }
+
+    // טופס חיפוש ראשי
+    document.getElementById("main-search-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      searchProviders();
+    });
+
+    // כפתור "עדכן תוצאות" בסקשן תוצאות
+    document.getElementById("filter-apply").addEventListener("click", () => {
+      const category = document.getElementById("filter-category").value;
+      const city = document.getElementById("filter-city").value;
+      let list = filterProviders({category, city});
+      const sortBy = document.getElementById("filter-sort").value;
+      if (sortBy === "rating") {
+        list.sort((a, b) => b.ratingAvg - a.ratingAvg);
+      } else if (sortBy === "reviews") {
+        list.sort((a, b) => b.ratingCount - a.ratingCount);
+      }
+      renderSearchResults(list);
+    });
+
+    // ===== פרופיל בעל מקצוע =====
+    function openProviderProfile(id) {
+      const p = providers.find(x => x.id === id);
+      if (!p) return;
+
+      document.getElementById("profile-name").textContent = p.name;
+      document.getElementById("profile-meta").textContent =
+        `${p.category} · ${p.city} (${p.area})`;
+
+      document.getElementById("profile-rating-main").textContent =
+        `⭐ ${p.ratingAvg.toFixed(1)}`;
+      document.getElementById("profile-rating-count").textContent =
+        `${p.ratingCount} חוות דעת`;
+
+      document.getElementById("profile-breakdown").innerHTML = `
+        איכות עבודה: ${p.scores.quality.toFixed(1)}<br>
+        מחיר: ${p.scores.price.toFixed(1)}<br>
+        עמידה בזמנים: ${p.scores.punctual.toFixed(1)}<br>
+        שירות: ${p.scores.service.toFixed(1)}
+      `;
+
+      const contacts = document.getElementById("profile-contacts");
+      contacts.innerHTML = `
+        <button class="btn-outline">☎ התקשר: ${p.phone}</button>
+        <button class="btn-outline">💬 וואטסאפ: ${p.whatsapp}</button>
+      `;
+
+      const gallery = document.getElementById("profile-gallery");
+      gallery.innerHTML = "";
+      p.gallery.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "gallery-item";
+        div.textContent = item;
+        gallery.appendChild(div);
+      });
+
+      const reviewsBox = document.getElementById("profile-reviews");
+      reviewsBox.innerHTML = "";
+      p.reviews.forEach(r => {
+        const div = document.createElement("div");
+        div.className = "review";
+        div.innerHTML = `
+          <div class="review-header">
+            <span>${r.reviewerName}</span>
+            <span>${r.date} · ⭐ ${r.rating}</span>
+          </div>
+          <div class="review-body">${r.commentText}</div>
+        `;
+        reviewsBox.appendChild(div);
+      });
+
+      showSection("profile");
+    }
+
+    document.getElementById("back-to-results").addEventListener("click", () => {
+      showSection("results");
+    });
+
+    // ===== טופס בעלי מקצוע (דמו) =====
+    document.getElementById("pros-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      alert("תודה! הטופס הוא דמו בלבד. במערכת אמיתית הפרטים יישלחו לנציג בעל מקצוע+.");
+      e.target.reset();
+    });
+
+    // ===== אתחול =====
+    function init() {
+      renderCategories();
+      // תאריך בפוטר
+      document.getElementById("year").textContent = new Date().getFullYear();
+    }
+
+    init();
+  </script>
+</body>
+</html>
